@@ -1,0 +1,36 @@
+{
+  "name": "gulp-esperanto-rocks",
+  "version": "0.1.0",
+  "description": "",
+  "keywords": [
+    "gulpplugin",
+    "esperanto",
+    "6to5",
+    "es6",
+    "amd",
+    "ember-rocks"
+  ],
+  "repository": "https://github.com/mattma/gulp-esperanto-rocks.git",
+  "author": "Matt Ma <matt@mattmadesign.com>",
+  "dependencies": {
+    "esperanto": "^0.6.9",
+    "gulp-util": "^3.0.2",
+    "lodash": "^2.4.1",
+    "through2": "^0.6.3",
+    "object-assign": "^2.0.0"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "scripts": {
+    "test": "gulp jshint && ./node_modules/lab/bin/lab -cv -m 5000 ./test/*.js",
+    "compile": "lodash template=./templates/*.jst exports=node -o template.js -d"
+  },
+  "devDependencies": {
+    "code": "^1.2.1",
+    "gulp": "^3.8.10",
+    "gulp-jshint": "~1.9.0",
+    "lab": "^5.2.0"
+  }
+}
