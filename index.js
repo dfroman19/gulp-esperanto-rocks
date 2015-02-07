@@ -5,6 +5,7 @@ var PluginError = require('gulp-util').PluginError;
 var objectAssign = require('object-assign');
 var esperanto = require('esperanto');
 var path = require('path');
+var applySourceMap = require('vinyl-sourcemaps-apply');
 
 var defaultOptions = {
   type: 'amd'
@@ -19,11 +20,21 @@ function compile (file, opts) {
     opts.amdName = prefix + name;
   }
 
-  var fileOpts = objectAssign(defaultOptions, opts);
+  var fileOpts = objectAssign({
+    sourceMap: !!file.sourceMap,
+    sourceMapSource: file.relative,
+    sourceMapFile: file.relative
+  }, defaultOptions, opts);
+
   var fn = 'to' + opts.type.charAt(0).toUpperCase() + opts.type.slice(1).toLowerCase();
 
-  var code = esperanto[fn](file.contents.toString(), fileOpts).code;
-  return new Buffer(code);
+  var res = esperanto[fn](file.contents.toString(), fileOpts);
+
+  if (file.sourceMap && res.map) {
+    applySourceMap(file, res.map);
+  }
+
+  return new Buffer(res.code);
 }
 
 module.exports = function (options) {
