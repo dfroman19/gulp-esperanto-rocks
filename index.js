@@ -4,12 +4,13 @@ var through = require('through2');
 var PluginError = require('gulp-util').PluginError;
 var objectAssign = require('object-assign');
 var esperanto = require('esperanto');
+var path = require('path');
 
 var defaultOptions = {
   type: 'amd'
 };
 
-function compile (contents, opts) {
+function compile (file, opts) {
   if(opts.moduleRoot) {
     var name = path.relative(opts.moduleRoot, file.path).slice(0, -path.extname(file.path).length);
     // platform agnostic for file path definition
@@ -22,7 +23,7 @@ function compile (contents, opts) {
   var fn = 'to' + opts.type.charAt(0).toUpperCase() + opts.type.slice(1).toLowerCase();
 
   var code = esperanto[fn](file.contents.toString(), fileOpts).code;
-  return new BUffer(code);
+  return new Buffer(code);
 }
 
 module.exports = function (options) {
@@ -42,7 +43,7 @@ module.exports = function (options) {
 
     // `file.contents` type should always be the same going out as it was when it came in
     try {
-      file.contents = compile(file.contents, options);
+      file.contents = compile(file, options);
       this.push(file);
     } catch (err) {
       this.emit('error', new PluginError('gulp-esperanto-rocks', err, {fileName: file.path}));
