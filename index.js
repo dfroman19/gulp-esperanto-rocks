@@ -7,28 +7,28 @@ var esperanto = require('esperanto');
 var path = require('path');
 var applySourceMap = require('vinyl-sourcemaps-apply');
 
-var defaultOptions = {
-  type: 'amd'
+var formatToFunc = {
+  amd: 'toAmd',
+  cjs: 'toCjs'
 };
 
 function compile (file, opts) {
   if(opts.moduleRoot) {
     var name = path.relative(opts.moduleRoot, file.path).slice(0, -path.extname(file.path).length);
-    // platform agnostic for file path definition
     name = name.split(path.sep).join('/');
     var prefix = opts.modulePrefix.indexOf('/') > -1 ? opts.modulePrefix : opts.modulePrefix + '/';
     opts.amdName = prefix + name;
   }
 
-  var fileOpts = objectAssign({
+  var source = file.contents.toString();
+  // https://github.com/esperantojs/esperanto/wiki/Sourcemaps
+  var options = objectAssign({
     sourceMap: !!file.sourceMap,
     sourceMapSource: file.relative,
     sourceMapFile: file.relative
-  }, defaultOptions, opts);
+  }, opts);
 
-  var fn = 'to' + opts.type.charAt(0).toUpperCase() + opts.type.slice(1).toLowerCase();
-
-  var res = esperanto[fn](file.contents.toString(), fileOpts);
+  var res = esperanto[formatToFunc[opts.type || 'amd']](source, options);
 
   if (file.sourceMap && res.map) {
     applySourceMap(file, res.map);
