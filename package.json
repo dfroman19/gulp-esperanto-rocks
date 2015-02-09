@@ -13,9 +13,8 @@
   "repository": "https://github.com/mattma/gulp-esperanto-rocks.git",
   "author": "Matt Ma <matt@mattmadesign.com>",
   "dependencies": {
-    "esperanto": "^0.6.9",
+    "esperanto": "^0.6.11",
     "gulp-util": "^3.0.2",
-    "lodash": "^2.4.1",
     "object-assign": "^2.0.0",
     "through2": "^0.6.3",
     "vinyl-sourcemaps-apply": "^0.1.4"

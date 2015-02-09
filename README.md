@@ -1,13 +1,13 @@
-# gulp-ember-htmlbars
+# gulp-esperanto-rocks
 
-> compile htmlbars and handlebars for ember application
+> Gulp plugin to transpile ES6 module syntax with esperanto with custom AMD definition name
 
 ## Usage
 
-Install `gulp-ember-htmlbars` as a development dependency:
+Install `gulp-esperanto-rocks` as a development dependency:
 
 ```shell
-npm install --save-dev gulp-ember-htmlbars
+npm install --save-dev gulp-esperanto-rocks
 ```
 
 ## LICENSE
