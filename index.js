@@ -13,8 +13,13 @@ var formatToFunc = {
 };
 
 function compile (file, opts) {
-  if(opts.moduleRoot) {
-    var name = path.relative(opts.moduleRoot, file.path).slice(0, -path.extname(file.path).length);
+  if(opts.modulePrefix) {
+    var name;
+    if (opts.moduleRoot) {
+      name = path.relative(opts.moduleRoot, file.path).slice(0, -path.extname(file.path).length);
+    } else {
+      name = file.relative;
+    }
     name = name.split(path.sep).join('/');
     var prefix = opts.modulePrefix.indexOf('/') > -1 ? opts.modulePrefix : opts.modulePrefix + '/';
     opts.amdName = prefix + name;
